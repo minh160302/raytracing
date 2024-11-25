@@ -1,3 +1,15 @@
 - A camera as view point
 - setup a virtual viewport through which to pass our scene rays
 - normal vector is the unit vector perpendicular to the plane, same as in physics
+
+
+
+our eyes are naturally doing what we want our ray tracer to do: 
+integrate the (continuous function of) light falling on a particular (discrete) region of our rendered image.
+
+
+
+Anti-aliasing:
+- at every pixel, average the color of neighbors
+- generates a random sample point within the unit square centered at the origin
+- then transform the random sample from this ideal square back to the particular pixel we're currently sampling
