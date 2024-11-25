@@ -794,11 +794,12 @@ CMakeFiles/raytracing.dir/src/main.cpp.o
  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/_types/_nl_item.h
  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__bsd_locale_defaults.h
  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/cstdarg
- /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/interval.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/color.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/vec3.h
+ /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/interval.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/ray.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/hittable.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/hittable_list.h
  /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/sphere.h
+ /Users/nguyencanhminh/Downloads/code/graphics/raytracing/src/camera.h
 
