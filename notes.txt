@@ -1,0 +1,3 @@
+- A camera as view point
+- setup a virtual viewport through which to pass our scene rays
+- normal vector is the unit vector perpendicular to the plane, same as in physics

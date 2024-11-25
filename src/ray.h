@@ -4,7 +4,8 @@
 #include <ray.h>
 #include <vec3.h>
 
-class ray {
+class ray
+{
 public:
   ray() {}
 
@@ -16,7 +17,7 @@ public:
   const vec3 &direction() const { return dir; }
 
   // Linear Interpolation: P(t) = A + t*B
-  point3 at(double t) { return orig + t * dir; }
+  point3 at(double t) const { return orig + t * dir; }
 
 private:
   point3 orig;

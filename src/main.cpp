@@ -3,26 +3,32 @@
 #include <ray.h>
 #include <vec3.h>
 
-bool hit_sphere(const point3 &center, double radius, const ray &r)
+double hit_sphere(const point3 &center, double radius, const ray &r)
 {
   auto d = r.direction();
   auto Q = r.origin();
   vec3 dist = center - Q;
 
   auto a = dot(d, d);
-  auto b = -2 * dot(d, dist);
-  auto c = dot(dist, dist) - radius * radius;
+  auto h = dot(d, dist);
+  auto c = dist.length_squared() - radius * radius;
 
-  auto delta = b * b - 4 * a * c;
-  return delta >= 0;
+  auto delta = h * h - a * c;
+  if (delta < 0)
+    return -1;
+  return (h - std::sqrt(delta)) / a;
 }
 
 // blue-to-white gradient
 // Linear interpolation: blendedValue = (1 − 𝑎)⋅startValue + 𝑎⋅endValue
 color ray_color(const ray &r)
 {
-  if (hit_sphere(point3(0, 0, -1), 0.5, r))
-    return color(1, 0, 0);
+  double t = hit_sphere(point3(0, 0, -1), 0.5, r);
+  if (t > 0.0)
+  {
+    vec3 normal = unit_vector(r.at(t) - vec3(0, 0, -1));
+    return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+  }
 
   vec3 unit_direction = unit_vector(r.direction());
   auto a = 0.5 * (unit_direction.y() + 1.0);
