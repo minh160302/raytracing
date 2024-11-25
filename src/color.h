@@ -1,6 +1,6 @@
 /**
  * * Utility function that writes a single pixel's color out to the standard output stream
- * 
+ *
  * * Define color as an alias of vec3
  */
 #ifndef COLOR_H
@@ -8,11 +8,10 @@
 
 #include "vec3.h"
 
-#include <iostream>
-
 using color = vec3;
 
-void write_color(std::ostream &out, const color &pixel_color) {
+void write_color(std::ostream &out, const color &pixel_color)
+{
   auto r = pixel_color.x();
   auto g = pixel_color.y();
   auto b = pixel_color.z();

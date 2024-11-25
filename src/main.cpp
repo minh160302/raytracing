@@ -1,33 +1,16 @@
-#include <color.h>
-#include <iostream>
-#include <ray.h>
-#include <vec3.h>
-
-double hit_sphere(const point3 &center, double radius, const ray &r)
-{
-  auto d = r.direction();
-  auto Q = r.origin();
-  vec3 dist = center - Q;
-
-  auto a = dot(d, d);
-  auto h = dot(d, dist);
-  auto c = dist.length_squared() - radius * radius;
-
-  auto delta = h * h - a * c;
-  if (delta < 0)
-    return -1;
-  return (h - std::sqrt(delta)) / a;
-}
+#include "common.h"
+#include "hittable.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
 // blue-to-white gradient
 // Linear interpolation: blendedValue = (1 − 𝑎)⋅startValue + 𝑎⋅endValue
-color ray_color(const ray &r)
+color ray_color(const ray &r, const hittable &world)
 {
-  double t = hit_sphere(point3(0, 0, -1), 0.5, r);
-  if (t > 0.0)
+  hit_record record;
+  if (world.hit(r, interval(0, infinity), record))
   {
-    vec3 normal = unit_vector(r.at(t) - vec3(0, 0, -1));
-    return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+    return 0.5 * (record.normal + color(1, 1, 1));
   }
 
   vec3 unit_direction = unit_vector(r.direction());
@@ -44,6 +27,11 @@ int main()
   int image_height = int(image_width / aspect_ratio);
   if (image_height < 1)
     image_height = 1;
+
+  // World
+  hittable_list world;
+  world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+  world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
   // Camera
   auto focal_length = 1.0;
@@ -76,7 +64,7 @@ int main()
       auto ray_direction = pixel_center - camera_center;
       ray r(camera_center, ray_direction);
 
-      color pixel_color = ray_color(r);
+      color pixel_color = ray_color(r, world);
       write_color(std::cout, pixel_color);
     }
   }
