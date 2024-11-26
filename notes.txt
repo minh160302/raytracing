@@ -10,6 +10,31 @@ integrate the (continuous function of) light falling on a particular (discrete) 
 
 
 Anti-aliasing:
+- smooth edge in image
 - at every pixel, average the color of neighbors
 - generates a random sample point within the unit square centered at the origin
 - then transform the random sample from this ideal square back to the particular pixel we're currently sampling
+
+
+Diffuse:
+- how rays are reflected when hitting surfaces
+- a ray that hits the surface has an equal probability of bouncing in any direction away from the surface
+- process:
+    + Generate a random vector inside the unit sphere
+    + Normalize this vector to extend it to the sphere surface
+    + Invert the normalized vector if it falls onto the wrong hemisphere
+
+
+
+Shadow Acne:
+- caused by precision during calculations
+- the ray that is randomly scattered off the surface, which is the origin of the next ray, might be slightly
+on/below the surface. If below, it will bounce against the surface again.
+=> solution: ignore hits that are very close to the calculated intersection point
+
+
+Lambertian Reflection
+- a reflected ray is most likely to scatter in a direction near the surface normal, 
+and less likely to scatter in directions away from the normal
+
+

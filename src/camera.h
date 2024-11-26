@@ -8,9 +8,10 @@ class camera
 {
 public:
   // Image setup
-  double aspect_ratio = 1.0;  // * Ratio of image width over height
-  int image_width = 100;      // * Rendered image width in pixel
-  int samples_per_pixel = 10; // * Count of random samples for each pixel
+  double aspect_ratio = 1.0;    // * Ratio of image width over height
+  int image_width = 100;        // * Rendered image width in pixel
+  int samples_per_pixel = 10;   // * Count of random samples for each pixel
+  int recursion_max_depth = 10; // * Maximum number of rays bounce into scene
 
   void render(const hittable &world)
   {
@@ -31,7 +32,7 @@ public:
         for (int sample = 0; sample < samples_per_pixel; ++sample)
         {
           ray r = get_ray(i, j);
-          pixel_color += ray_color(r, world);
+          pixel_color += ray_color(r, recursion_max_depth, world);
         }
         write_color(std::cout, pixel_sample_scale * pixel_color);
       }
@@ -95,12 +96,20 @@ private:
     return vec3(random_double() - 0.5, random_double() - 0.5, 0);
   }
 
-  color ray_color(const ray &r, const hittable &world) const
+  // the color for a given scene ray when hit an object
+  color ray_color(const ray &r, int max_depth, const hittable &world) const
   {
-    hit_record record;
-    if (world.hit(r, interval(0, infinity), record))
+    if (max_depth <= 0)
     {
-      return 0.5 * (record.normal + color(1, 1, 1));
+      return color(0, 0, 0);
+    }
+    hit_record record;
+    // Fixing shadow acne
+    if (world.hit(r, interval(0.001, infinity), record))
+    {
+      vec3 direction = record.normal + random_unit_vector();
+      // 50% color from a bounce
+      return 0.1 * ray_color(ray(record.p, direction), max_depth - 1, world);
     }
 
     vec3 unit_direction = unit_vector(r.direction());
